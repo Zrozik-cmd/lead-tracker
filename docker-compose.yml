@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: lead-db
+    restart: always
+    environment:
+      POSTGRES_USER: lead_user
+      POSTGRES_PASSWORD: lead_pass
+      POSTGRES_DB: lead_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: lead-backend
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://lead_user:lead_pass@postgres:5432/lead_db
+      PORT: 4000
+    ports:
+      - '4000:4000'
+
+  frontend:
+    build: ./frontend
+    container_name: lead-frontend
+    restart: always
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:4000/api
+    ports:
+      - '3000:3000'
+
+volumes:
+  pgdata:
