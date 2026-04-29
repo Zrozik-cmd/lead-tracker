@@ -23,7 +23,15 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Lead Tracker backend built with NestJS and Prisma.
+
+This service provides:
+
+- CRUD API for leads (`/api/leads`)
+- nested comments API (`/api/leads/:leadId/comments`)
+- validation via `class-validator`
+- Swagger docs at `/api/docs`
+- pagination, search, status filtering, and sorting support for leads
 
 ## Project setup
 
