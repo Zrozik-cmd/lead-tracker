@@ -7,24 +7,26 @@ import { CreateCommentDto } from './dto/create-comment.dto';
 export class CommentsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createCommentDto: CreateCommentDto): Promise<Comment> {
-    // Check if lead exists
+  async create(
+    leadId: string,
+    createCommentDto: CreateCommentDto,
+  ): Promise<Comment> {
     const lead = await this.prisma.lead.findUnique({
-      where: { id: createCommentDto.leadId },
+      where: { id: leadId },
     });
     if (!lead) {
-      throw new NotFoundException(
-        `Lead with ID ${createCommentDto.leadId} not found`,
-      );
+      throw new NotFoundException(`Lead with ID ${leadId} not found`);
     }
 
     return this.prisma.comment.create({
-      data: createCommentDto,
+      data: {
+        text: createCommentDto.text,
+        leadId,
+      },
     });
   }
 
   async findByLeadId(leadId: string): Promise<Comment[]> {
-    // Check if lead exists
     const lead = await this.prisma.lead.findUnique({
       where: { id: leadId },
     });

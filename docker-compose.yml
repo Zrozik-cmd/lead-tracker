@@ -10,16 +10,22 @@ services:
       POSTGRES_PASSWORD: lead_pass
       POSTGRES_DB: lead_db
     ports:
-      - '5432:5432'
+      - '5433:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U lead_user -d lead_db']
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   backend:
     build: ./backend
     container_name: lead-backend
     restart: always
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       DATABASE_URL: postgresql://lead_user:lead_pass@postgres:5432/lead_db
       PORT: 4000

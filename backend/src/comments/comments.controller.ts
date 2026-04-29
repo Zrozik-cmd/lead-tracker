@@ -18,9 +18,7 @@ export class CommentsController {
     @Param('leadId') leadId: string,
     @Body() createCommentDto: CreateCommentDto,
   ): Promise<Comment> {
-    // Ensure leadId matches
-    createCommentDto.leadId = leadId;
-    return this.commentsService.create(createCommentDto);
+    return this.commentsService.create(leadId, createCommentDto);
   }
 
   @Get()

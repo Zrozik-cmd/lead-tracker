@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsUUID, Length } from 'class-validator';
+import { IsString, Length } from 'class-validator';
 
 export class CreateCommentDto {
   @ApiProperty({
@@ -11,11 +11,4 @@ export class CreateCommentDto {
   @IsString()
   @Length(1, 500)
   text!: string;
-
-  @ApiProperty({
-    description: 'ID of the lead this comment belongs to',
-    example: '123e4567-e89b-12d3-a456-426614174000',
-  })
-  @IsUUID()
-  leadId!: string;
 }
