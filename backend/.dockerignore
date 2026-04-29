@@ -1,3 +1,7 @@
 node_modules
 dist
 .git
+prisma.config.js.map
+prisma.config.d.ts
+tsconfig.tsbuildinfo
+tsconfig.build.tsbuildinfo
